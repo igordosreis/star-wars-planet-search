@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 
 function FilterForm() {
@@ -23,8 +23,8 @@ function FilterForm() {
   );
 }
 
-FilterForm.propTypes = {
+// FilterForm.propTypes = {
 
-};
+// };
 
 export default FilterForm;

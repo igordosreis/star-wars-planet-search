@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
@@ -47,8 +47,8 @@ function Table() {
   );
 }
 
-Table.propTypes = {
+// Table.propTypes = {
 
-};
+// };
 
 export default Table;
