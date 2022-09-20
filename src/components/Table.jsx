@@ -3,16 +3,22 @@ import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { planetsInfo, getPlanetsInfo } = useContext(StarWarsContext);
+  const { planetsInfo, getPlanetsInfo, filterByName } = useContext(StarWarsContext);
 
   useEffect(() => {
     getPlanetsInfo();
   }, []);
 
+  const filterPlanets = () => planetsInfo
+    .filter(({ name }) => name.toLowerCase().includes(filterByName.name.toLowerCase()));
+
+  const filteredPlanets = filterPlanets();
+
+  // Rendering functions
   const renderTableHeaders = () => (
     <thead>
       <tr>
-        { Object.keys(planetsInfo[0] || {}).map((header) => (
+        { Object.keys(filteredPlanets[0] || {}).map((header) => (
           <th key={ header }>
             { header
               .replace(/_+/g, ' ')
@@ -25,7 +31,7 @@ function Table() {
 
   const renderTableBody = () => (
     <tbody>
-      { planetsInfo.map((planet) => (
+      { filteredPlanets.map((planet) => (
         <tr key={ planet.name }>
           { Object.values(planet).map((info) => <td key={ info }>{ info }</td>) }
         </tr>

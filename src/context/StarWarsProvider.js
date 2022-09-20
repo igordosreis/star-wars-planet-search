@@ -6,24 +6,27 @@ import deleteProperties from '../helpers';
 
 function StarWarsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
-  const [error, setError] = useState('');
+  const [filterByName, setFilterByName] = useState({ name: '' });
+  // const [error, setError] = useState('');
 
   const getPlanetsInfo = async () => {
-    try {
-      const response = await fetchPlanetsInfo();
-      const planetsInfoWithoutResidents = deleteProperties(
-        response.results,
-        ['residents'],
-      );
-      setPlanetsInfo([...planetsInfoWithoutResidents]);
-    } catch (errorMsg) {
-      setError(error);
-    }
+    // try {
+    const response = await fetchPlanetsInfo();
+    const planetsInfoWithoutResidents = deleteProperties(
+      response.results,
+      ['residents'],
+    );
+    setPlanetsInfo([...planetsInfoWithoutResidents]);
+    // } catch (errorMsg) {
+    // setError(error);
+    // }
   };
 
   const contextValues = {
     planetsInfo,
     getPlanetsInfo,
+    filterByName,
+    setFilterByName,
   };
 
   return (
