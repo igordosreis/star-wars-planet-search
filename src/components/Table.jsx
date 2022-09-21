@@ -17,11 +17,14 @@ function Table() {
     case 'menor que':
       return ((planet) => planet[column] !== 'unknown'
         && Number(planet[column]) < Number(value));
-    case 'igual a':
-      return ((planet) => planet[column] !== 'unknown'
-        && Number(planet[column]) === Number(value));
     default:
-      return planetsAcc;
+      return ((planet) => planet[column] !== 'unknown'
+      && Number(planet[column]) === Number(value));
+    // case 'igual a':
+    //   return ((planet) => planet[column] !== 'unknown'
+    //     && Number(planet[column]) === Number(value));
+    // default:
+    //   return planetsAcc;
     }
   };
 
