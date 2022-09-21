@@ -3,16 +3,43 @@ import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { planetsInfo, getPlanetsInfo, filterByName } = useContext(StarWarsContext);
+  const { planetsInfo, getPlanetsInfo, filterByName,
+    filterArguments } = useContext(StarWarsContext);
 
+  // onMount Functions
   useEffect(() => {
     getPlanetsInfo();
   }, []);
 
-  const filterPlanets = () => planetsInfo
-    .filter(({ name }) => name.toLowerCase().includes(filterByName.name.toLowerCase()));
+  const filterPlanetsByNumericValues = (planetsAcc, { column, comparison, value }) => {
+    switch (comparison) {
+    case 'maior que':
+      return planetsAcc.filter((planet) => planet[column] !== 'unknown'
+        && Number(planet[column]) > Number(value));
+    case 'menor que':
+      return planetsAcc.filter((planet) => planet[column] !== 'unknown'
+        && Number(planet[column]) < Number(value));
+    case 'igual a':
+      return planetsAcc.filter((planet) => planet[column] !== 'unknown'
+        && Number(planet[column]) === Number(value));
+    default:
+      return planetsAcc;
+    }
+  };
+
+  const filterPlanets = () => {
+    const planetsFilteredByNumericValues = filterArguments
+      .reduce((planetsAcc, currentFilter) => (filterPlanetsByNumericValues(
+        planetsAcc,
+        currentFilter,
+      )), planetsInfo);
+    const planetsFilteredByNumericValuesAndByName = planetsFilteredByNumericValues
+      .filter(({ name }) => name.toLowerCase().includes(filterByName.name.toLowerCase()));
+    return planetsFilteredByNumericValuesAndByName;
+  };
 
   const filteredPlanets = filterPlanets();
+  console.log(filteredPlanets);
 
   // Rendering functions
   const renderTableHeaders = () => (

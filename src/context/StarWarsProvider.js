@@ -4,9 +4,17 @@ import fetchPlanetsInfo from '../services';
 import StarWarsContext from './StarWarsContext';
 import deleteProperties from '../helpers';
 
+const NUMERIC_FILTERS = {
+  column: 'population',
+  comparison: 'maior que',
+  value: 0,
+};
+
 function StarWarsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
+  const [filterByNumericValues, setFilterByNumericValues] = useState(NUMERIC_FILTERS);
+  const [filterArguments, setFilterArguments] = useState([]);
   // const [error, setError] = useState('');
 
   const getPlanetsInfo = async () => {
@@ -27,6 +35,10 @@ function StarWarsProvider({ children }) {
     getPlanetsInfo,
     filterByName,
     setFilterByName,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    filterArguments,
+    setFilterArguments,
   };
 
   return (
@@ -44,3 +56,9 @@ StarWarsProvider.propTypes = {
 };
 
 export default StarWarsProvider;
+
+// {
+//   column: 'population',
+//   comparison: 'maior que',
+//   value: '100000',
+// }
