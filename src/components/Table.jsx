@@ -12,7 +12,7 @@ function Table() {
   }, []);
 
   // Rendering functions
-  const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
+  const filterPlanetsByNumericValues = (planetsAcc, { column, comparison, value }) => {
     switch (comparison) {
     case 'maior que':
       return ((planet) => planet[column] !== 'unknown'
@@ -31,7 +31,7 @@ function Table() {
   const filterPlanets = () => {
     const planetsFilteredByNumericValues = filterArguments
       .reduce((planetsAcc, currentFilter) => (planetsAcc
-        .filter(filterPlanetsByNumericValues(currentFilter))), planetsInfo);
+        .filter(filterPlanetsByNumericValues(planetsAcc, currentFilter))), planetsInfo);
     const planetsFilteredByNumericValuesAndByName = planetsFilteredByNumericValues
       .filter(({ name }) => name.toLowerCase().includes(filterByName.toLowerCase()));
     return planetsFilteredByNumericValuesAndByName;
