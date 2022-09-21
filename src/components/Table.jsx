@@ -34,7 +34,7 @@ function Table() {
         currentFilter,
       )), planetsInfo);
     const planetsFilteredByNumericValuesAndByName = planetsFilteredByNumericValues
-      .filter(({ name }) => name.toLowerCase().includes(filterByName.name.toLowerCase()));
+      .filter(({ name }) => name.toLowerCase().includes(filterByName.toLowerCase()));
     return planetsFilteredByNumericValuesAndByName;
   };
 
@@ -48,7 +48,7 @@ function Table() {
           <th key={ header }>
             { header
               .replace(/_+/g, ' ')
-              .replace(/(^\w{1})|(\s+\w{1})/g, (firstChar) => firstChar.toUpperCase()) }
+              .replace(/\b\w/g, (firstChar) => firstChar.toUpperCase()) }
           </th>
         )) }
       </tr>

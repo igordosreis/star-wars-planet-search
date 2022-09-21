@@ -14,10 +14,8 @@ function FilterForm() {
     setFilterArguments } = useContext(StarWarsContext);
 
   // Handling Functions
-  const handleInput = ({ target: { name, value } }) => (
-    setFilterByName({
-      [name]: value,
-    }));
+  const handleInput = ({ target: { value } }) => (
+    setFilterByName(value));
 
   const handleSelect = ({ target: { name, value } }) => (
     setFilterByNumericValues((prevValues) => ({
@@ -28,7 +26,6 @@ function FilterForm() {
 
   const handleAddFilterButtonClick = () => {
     const updatedFilterArguments = [...filterArguments, filterByNumericValues];
-    console.log(updatedFilterArguments);
     setFilterArguments(updatedFilterArguments);
   };
 
@@ -68,9 +65,10 @@ function FilterForm() {
   );
 
   // On props update Functions
-  useEffect(() => setFilterByNumericValues((prevValues) => ({
-    ...prevValues,
+  useEffect(() => setFilterByNumericValues(({
+    comparison: 'maior que',
     column: options[0],
+    value: 0,
   })), [filterArguments]);
 
   return (
@@ -79,7 +77,7 @@ function FilterForm() {
         data-testid="name-filter"
         type="text"
         name="name"
-        value={ filterByName.name }
+        value={ filterByName }
         onChange={ handleInput }
       />
       <SelectWithOptions

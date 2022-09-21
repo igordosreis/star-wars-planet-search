@@ -12,7 +12,7 @@ const NUMERIC_FILTERS = {
 
 function StarWarsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
-  const [filterByName, setFilterByName] = useState({ name: '' });
+  const [filterByName, setFilterByName] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState(NUMERIC_FILTERS);
   const [filterArguments, setFilterArguments] = useState([]);
   // const [error, setError] = useState('');
