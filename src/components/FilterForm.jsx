@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 import SelectWithOptions from './SelectWithOptions';
@@ -12,15 +12,6 @@ function FilterForm() {
   const { filterByName, setFilterByName, filterByNumericValues,
     setFilterByNumericValues, filterArguments,
     setFilterArguments } = useContext(StarWarsContext);
-
-  const currentOptions = () => {
-    const optionsInUse = filterArguments.map(({ column }) => column);
-    const remainingOptions = COLUMN_OPTIONS
-      .filter((option) => !optionsInUse.includes(option));
-    return remainingOptions;
-  };
-
-  const options = currentOptions();
 
   // Handling Functions
   const handleInput = ({ target: { name, value } }) => (
@@ -37,6 +28,7 @@ function FilterForm() {
 
   const handleAddFilterButtonClick = () => {
     const updatedFilterArguments = [...filterArguments, filterByNumericValues];
+    console.log(updatedFilterArguments);
     setFilterArguments(updatedFilterArguments);
   };
 
@@ -47,6 +39,14 @@ function FilterForm() {
   };
 
   // Rendering Functions
+  const currentOptions = () => {
+    const optionsInUse = filterArguments.map(({ column }) => column);
+    const remainingOptions = COLUMN_OPTIONS
+      .filter((option) => !optionsInUse.includes(option));
+    return remainingOptions;
+  };
+
+  const options = currentOptions();
 
   const renderCurrentFilters = () => (
     <div>
@@ -64,6 +64,12 @@ function FilterForm() {
       )) }
     </div>
   );
+
+  // On props update Functions
+  useEffect(() => setFilterByNumericValues((prevValues) => ({
+    ...prevValues,
+    column: options[0],
+  })), [filterArguments]);
 
   return (
     <div>

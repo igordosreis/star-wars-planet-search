@@ -39,7 +39,6 @@ function Table() {
   };
 
   const filteredPlanets = filterPlanets();
-  console.log(filteredPlanets);
 
   // Rendering functions
   const renderTableHeaders = () => (
