@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import fetchPlanetsInfo from '../services';
 import StarWarsContext from './StarWarsContext';
+import fetchPlanetsInfo from '../services';
 import deleteProperties from '../helpers';
 
 const NUMERIC_FILTERS = {
@@ -56,9 +56,3 @@ StarWarsProvider.propTypes = {
 };
 
 export default StarWarsProvider;
-
-// {
-//   column: 'population',
-//   comparison: 'maior que',
-//   value: '100000',
-// }
