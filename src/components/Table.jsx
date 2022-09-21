@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-// import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
@@ -7,9 +6,7 @@ function Table() {
     filterArguments, orderArguments } = useContext(StarWarsContext);
 
   // onMount Functions
-  useEffect(() => {
-    getPlanetsInfo();
-  }, []);
+  useEffect(() => getPlanetsInfo(), []);
 
   // Rendering functions
   const filterPlanetsByNumericValues = (planetsAcc, { column, comparison, value }) => {
@@ -32,17 +29,21 @@ function Table() {
     const planetsFilteredByNumericValues = filterArguments
       .reduce((planetsAcc, currentFilter) => (planetsAcc
         .filter(filterPlanetsByNumericValues(planetsAcc, currentFilter))), planetsInfo);
+
     const planetsFilteredByNumericValuesAndByName = planetsFilteredByNumericValues
       .filter(({ name }) => name.toLowerCase().includes(filterByName.toLowerCase()));
+
     return planetsFilteredByNumericValuesAndByName;
   };
 
   const sortPlanets = (filteredPlanets) => {
     const { column, sort } = orderArguments;
+
     const planetsWithUnknownValues = filteredPlanets
       .filter((planet) => planet[column] === 'unknown');
     const planetsWithoutUnknownValues = filteredPlanets
       .filter((planet) => planet[column] !== 'unknown');
+
     switch (sort) {
     case 'ASC':
       return [...planetsWithoutUnknownValues
@@ -94,9 +95,5 @@ function Table() {
     </table>
   );
 }
-
-// Table.propTypes = {
-
-// };
 
 export default Table;

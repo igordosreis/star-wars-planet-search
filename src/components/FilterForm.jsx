@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-// import PropTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 import SelectWithOptions from './SelectWithOptions';
 
@@ -15,8 +14,7 @@ function FilterForm() {
   } = useContext(StarWarsContext);
 
   // Handling Functions
-  const handleInput = ({ target: { value } }) => (
-    setFilterByName(value));
+  const handleNameFilterInput = ({ target: { value } }) => setFilterByName(value);
 
   const handleNumericFilterSelect = ({ target: { name, value } }) => (
     setFilterByNumericValues((prevValues) => ({
@@ -88,7 +86,7 @@ function FilterForm() {
         type="text"
         name="name"
         value={ filterByName }
-        onChange={ handleInput }
+        onChange={ handleNameFilterInput }
       />
       <SelectWithOptions
         dataTestId="column-filter"
@@ -166,9 +164,5 @@ function FilterForm() {
     </div>
   );
 }
-
-// FilterForm.propTypes = {
-
-// };
 
 export default FilterForm;
