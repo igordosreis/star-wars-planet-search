@@ -10,11 +10,18 @@ const NUMERIC_FILTERS = {
   value: 0,
 };
 
+const SORT_ORDER = {
+  column: 'population',
+  sort: 'ASC',
+};
+
 function StarWarsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState(NUMERIC_FILTERS);
   const [filterArguments, setFilterArguments] = useState([]);
+  const [order, setOrder] = useState(SORT_ORDER);
+  const [orderArguments, setOrderArguments] = useState({});
   // const [error, setError] = useState('');
 
   const getPlanetsInfo = async () => {
@@ -39,6 +46,10 @@ function StarWarsProvider({ children }) {
     setFilterByNumericValues,
     filterArguments,
     setFilterArguments,
+    order,
+    setOrder,
+    orderArguments,
+    setOrderArguments,
   };
 
   return (

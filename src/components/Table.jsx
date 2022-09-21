@@ -4,7 +4,7 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
   const { planetsInfo, getPlanetsInfo, filterByName,
-    filterArguments } = useContext(StarWarsContext);
+    filterArguments, orderArguments } = useContext(StarWarsContext);
 
   // onMount Functions
   useEffect(() => {
@@ -37,12 +37,32 @@ function Table() {
     return planetsFilteredByNumericValuesAndByName;
   };
 
-  const filteredPlanets = filterPlanets();
+  const sortPlanets = (filteredPlanets) => {
+    const { column, sort } = orderArguments;
+    const planetsWithUnknownValues = filteredPlanets
+      .filter((planet) => planet[column] === 'unknown');
+    const planetsWithoutUnknownValues = filteredPlanets
+      .filter((planet) => planet[column] !== 'unknown');
+    switch (sort) {
+    case 'ASC':
+      return [...planetsWithoutUnknownValues
+        .sort((planetA, planetB) => Number(planetA[column]) - Number(planetB[column])),
+      ...planetsWithUnknownValues];
+    case 'DSC':
+      return [...planetsWithoutUnknownValues
+        .sort((planetA, planetB) => Number(planetB[column]) - Number(planetA[column])),
+      ...planetsWithUnknownValues];
+    default:
+      return filteredPlanets;
+    }
+  };
+
+  const filteredAndSortedPlanets = sortPlanets(filterPlanets());
 
   const renderTableHeaders = () => (
     <thead>
       <tr>
-        { Object.keys(filteredPlanets[0] || {}).map((header) => (
+        { Object.keys(filteredAndSortedPlanets[0] || {}).map((header) => (
           <th key={ header }>
             { header
               .replace(/_+/g, ' ')
@@ -55,9 +75,13 @@ function Table() {
 
   const renderTableBody = () => (
     <tbody>
-      { filteredPlanets.map((planet) => (
+      { filteredAndSortedPlanets.map((planet) => (
         <tr key={ planet.name }>
-          { Object.values(planet).map((info) => <td key={ info }>{ info }</td>) }
+          { Object.values(planet).map((info, index) => (
+            index
+              ? <td key={ info }>{ info }</td>
+              : <td data-testid="planet-name" key={ info }>{ info }</td>
+          )) }
         </tr>
       )) }
     </tbody>
