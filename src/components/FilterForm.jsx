@@ -38,6 +38,8 @@ function FilterForm() {
     setFilterArguments(updatedFilterArguments);
   };
 
+  const handleRemoveAllFiltersButtonClick = () => setFilterArguments([]);
+
   // Rendering Functions
   const currentOptions = () => {
     const optionsInUse = filterArguments.map(({ column }) => column);
@@ -51,14 +53,14 @@ function FilterForm() {
   const renderCurrentFilters = () => (
     <div>
       { filterArguments.map(({ column, comparison, value }) => (
-        <div key={ column }>
+        <div data-testid="filter" key={ column }>
           <span>{ `${column} ${comparison} ${value}` }</span>
           <button
             type="button"
             data-filter={ column }
             onClick={ handleRemoveFilterButtonClick }
           >
-            Remover
+            X
           </button>
         </div>
       )) }
@@ -109,6 +111,13 @@ function FilterForm() {
         onClick={ handleAddFilterButtonClick }
       >
         Filtrar
+      </button>
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ handleRemoveAllFiltersButtonClick }
+      >
+        Remover filtros
       </button>
       { renderCurrentFilters() }
     </div>
