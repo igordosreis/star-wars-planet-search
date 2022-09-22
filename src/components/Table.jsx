@@ -2,8 +2,13 @@ import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { planetsInfo, getPlanetsInfo, filterByName,
-    filterArguments, orderArguments } = useContext(StarWarsContext);
+  const {
+    planetsInfo,
+    getPlanetsInfo,
+    filterByName,
+    numericFilterArguments,
+    orderArguments,
+  } = useContext(StarWarsContext);
 
   // onMount Functions
   useEffect(() => getPlanetsInfo(), []);
@@ -12,26 +17,21 @@ function Table() {
   const filterPlanetsByNumericValues = (planetsAcc, { column, comparison, value }) => {
     switch (comparison) {
     case 'maior que':
-      return ((planet) => planet[column] !== 'unknown'
-        && Number(planet[column]) > Number(value));
+      return ((planet) => Number(planet[column]) > Number(value));
     case 'menor que':
-      return ((planet) => planet[column] !== 'unknown'
-        && Number(planet[column]) < Number(value));
+      return ((planet) => Number(planet[column]) < Number(value));
+    case 'igual a':
+      return ((planet) => Number(planet[column]) === Number(value));
     default:
-      return ((planet) => planet[column] !== 'unknown'
-      && Number(planet[column]) === Number(value));
-    // case 'igual a':
-    //   return ((planet) => planet[column] !== 'unknown'
-    //     && Number(planet[column]) === Number(value));
-    // default:
-    //   return planetsAcc;
+      return planetsAcc;
     }
   };
 
   const filterPlanets = () => {
-    const planetsFilteredByNumericValues = filterArguments
+    const planetsFilteredByNumericValues = numericFilterArguments
       .reduce((planetsAcc, currentFilter) => (planetsAcc
-        .filter(filterPlanetsByNumericValues(planetsAcc, currentFilter))), planetsInfo);
+        .filter(filterPlanetsByNumericValues(planetsAcc, currentFilter))),
+      planetsInfo);
 
     const planetsFilteredByNumericValuesAndByName = planetsFilteredByNumericValues
       .filter(({ name }) => name.toLowerCase().includes(filterByName.toLowerCase()));
@@ -49,13 +49,17 @@ function Table() {
 
     switch (sort) {
     case 'ASC':
-      return [...planetsWithoutUnknownValues
-        .sort((planetA, planetB) => Number(planetA[column]) - Number(planetB[column])),
-      ...planetsWithUnknownValues];
+      return [
+        ...planetsWithoutUnknownValues
+          .sort((planetA, planetB) => Number(planetA[column]) - Number(planetB[column])),
+        ...planetsWithUnknownValues,
+      ];
     case 'DSC':
-      return [...planetsWithoutUnknownValues
-        .sort((planetA, planetB) => Number(planetB[column]) - Number(planetA[column])),
-      ...planetsWithUnknownValues];
+      return [
+        ...planetsWithoutUnknownValues
+          .sort((planetA, planetB) => Number(planetB[column]) - Number(planetA[column])),
+        ...planetsWithUnknownValues,
+      ];
     default:
       return filteredPlanets;
     }

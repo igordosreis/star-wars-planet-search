@@ -2,15 +2,31 @@ import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import SelectWithOptions from './SelectWithOptions';
 
-const COLUMN_OPTIONS = ['population', 'orbital_period', 'rotation_period', 'diameter',
-  'surface_water'];
+const COLUMN_OPTIONS = [
+  'population',
+  'orbital_period',
+  'rotation_period',
+  'diameter',
+  'surface_water',
+];
 
-const COMPARISON_OPERATOR = ['maior que', 'menor que', 'igual a'];
+const COMPARISON_OPERATOR = [
+  'maior que',
+  'menor que',
+  'igual a',
+];
 
 function FilterForm() {
-  const { filterByName, setFilterByName, filterByNumericValues,
-    setFilterByNumericValues, filterArguments,
-    setFilterArguments, order, setOrder, setOrderArguments,
+  const {
+    filterByName,
+    setFilterByName,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    numericFilterArguments,
+    setNumericFilterArguments,
+    order,
+    setOrder,
+    setOrderArguments,
   } = useContext(StarWarsContext);
 
   // Handling Functions
@@ -24,17 +40,17 @@ function FilterForm() {
   );
 
   const handleAddFilterButtonClick = () => {
-    const updatedFilterArguments = [...filterArguments, filterByNumericValues];
-    setFilterArguments(updatedFilterArguments);
+    const updatedFilterArguments = [...numericFilterArguments, filterByNumericValues];
+    setNumericFilterArguments(updatedFilterArguments);
   };
 
   const handleRemoveFilterButtonClick = ({ target: { dataset: { filter } } }) => {
-    const updatedFilterArguments = filterArguments
+    const updatedFilterArguments = numericFilterArguments
       .filter(({ column }) => column !== filter);
-    setFilterArguments(updatedFilterArguments);
+    setNumericFilterArguments(updatedFilterArguments);
   };
 
-  const handleRemoveAllFiltersButtonClick = () => setFilterArguments([]);
+  const handleRemoveAllFiltersButtonClick = () => setNumericFilterArguments([]);
 
   const handleSortSelectAndRadio = ({ target: { name, value } }) => (
     setOrder((prevValues) => ({
@@ -47,7 +63,7 @@ function FilterForm() {
 
   // Rendering Functions
   const currentOptions = () => {
-    const optionsInUse = filterArguments.map(({ column }) => column);
+    const optionsInUse = numericFilterArguments.map(({ column }) => column);
     const remainingOptions = COLUMN_OPTIONS
       .filter((option) => !optionsInUse.includes(option));
     return remainingOptions;
@@ -57,7 +73,7 @@ function FilterForm() {
 
   const renderCurrentFilters = () => (
     <div>
-      { filterArguments.map(({ column, comparison, value }) => (
+      { numericFilterArguments.map(({ column, comparison, value }) => (
         <div data-testid="filter" key={ column }>
           <span>{ `${column} ${comparison} ${value}` }</span>
           <button
@@ -77,7 +93,7 @@ function FilterForm() {
     comparison: 'maior que',
     column: options[0],
     value: 0,
-  })), [filterArguments]);
+  })), [numericFilterArguments]);
 
   return (
     <div>

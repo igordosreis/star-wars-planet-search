@@ -19,7 +19,7 @@ function StarWarsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState(NUMERIC_FILTERS);
-  const [filterArguments, setFilterArguments] = useState([]);
+  const [numericFilterArguments, setNumericFilterArguments] = useState([]);
   const [order, setOrder] = useState(SORT_ORDER);
   const [orderArguments, setOrderArguments] = useState({});
   // const [error, setError] = useState('');
@@ -44,8 +44,8 @@ function StarWarsProvider({ children }) {
     setFilterByName,
     filterByNumericValues,
     setFilterByNumericValues,
-    filterArguments,
-    setFilterArguments,
+    numericFilterArguments,
+    setNumericFilterArguments,
     order,
     setOrder,
     orderArguments,
